@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Forecast</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+    <link href="../../resources/static/css/weatherapp.css"
+          th:href="@{/css/weatherapp.css}"
+          rel="stylesheet"/>
+    <link href="../../resources/static/css/forecast.css"
+          th:href="@{/css/forecast.css}"
+          rel="stylesheet"/>
+
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+
+    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/js/bootstrap.min.js"
+        th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+
+
+
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/forecast/vienna" th:text="#{title.vienna}"></a></li>
+                <li><a href="/forecast/newyork" th:text="#{title.newyork}"></a></li>
+                <li><a href="/forecast/sydney" th:text="#{title.sydney}"></a></li>
+            </ul>
+
+            <ul class="nav navbar-nav language-select">
+                <li>
+                    <a href="?lang=en" th:if="${#locale.language != 'en'}">en</a>
+                    <span class="active-language" th:if="${#locale.language == 'en'}">en</span>
+                </li>
+                <li>
+                    <a href="?lang=de" th:if="${#locale.language != 'de'}">de</a>
+                    <span class="active-language" th:if="${#locale.language == 'de'}">de</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main immage + city name -->
+<div class="jumbotron">
+
+    <div class="city-image-container">
+        <img th:src="@{|/images/${cityKey}.jpg|}" class="center-block img-responsive" alt="Responsive image" />
+        <div id="current-weather-container">
+                    <div id="current-weather-description" th:text="#{|weather.code.${currentWeather.code}|}">text</div>
+                    <div id="current-weather-temp-container">
+                        <span id="current-weather-temp" th:text="${currentWeather.temp}"></span>
+                        <span id="current-weather-units">°C</span>
+                    </div>
+        </div>
+        <div class="caption">
+            <h1 th:text="#{|title.${cityKey}|}">cityKey</h1>
+        </div>
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-4 float-shadow" th:with="forecast=${forecasts[1]}">
+            <div class="weather-table-container">
+                <div class="weather-table-heading">
+                    <span class="forecast-day" th:text="#{weather.tomorrow}"></span>
+                    <span class="forecast-date" th:text="${#dates.format(forecast.date, 'dd.MM.YYYY')}"></span>
+                </div>
+                <div class="weather-table-body">
+                    <div class="weather-table-row weather-description" th:text="#{|weather.code.${forecast.code}|}">text</div>
+                    <div class="weather-table-row">
+                        <span th:text="${forecast.low}"></span>
+                        <span>/</span>
+                        <span th:text="${forecast.high}"></span>
+                        <span>°C</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 float-shadow" th:with="forecast=${forecasts[2]}">
+            <div class="weather-table-container">
+                <div class="weather-table-heading">
+                    <span class="forecast-day" th:text="${#dates.format(forecast.date, 'EEEE')}"></span>
+                    <span class="forecast-date" th:text="${#dates.format(forecast.date, 'dd.MM.YYYY')}"></span>
+                </div>
+                <div class="weather-table-body">
+                    <div class="weather-table-row weather-description" th:text="#{|weather.code.${forecast.code}|}">text</div>
+                    <div class="weather-table-row">
+                        <span th:text="${forecast.low}"></span>
+                        <span>/</span>
+                        <span th:text="${forecast.high}"></span>
+                        <span>°C</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 float-shadow" th:with="forecast=${forecasts[3]}">
+            <div class="weather-table-container">
+                <div class="weather-table-heading">
+                    <span class="forecast-day" th:text="${#dates.format(forecast.date, 'EEEE')}"></span>
+                    <span class="forecast-date" th:text="${#dates.format(forecast.date, 'dd.MM.YYYY')}"></span>
+                </div>
+                <div class="weather-table-body">
+                    <div class="weather-table-row weather-description" th:text="#{|weather.code.${forecast.code}|}">text</div>
+                    <div class="weather-table-row">
+                        <span th:text="${forecast.low}"></span>
+                        <span>/</span>
+                        <span th:text="${forecast.high}"></span>
+                        <span>°C</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr />
+
+    <footer>
+        <p>&copy; 2017 Nicolaus Klinger</p>
+    </footer>
+</div>
+</body>
+</html>
